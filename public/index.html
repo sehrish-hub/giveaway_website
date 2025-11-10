@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky Draw Giveaway</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Lucky Draw Giveaway</h1>
+
+        <section id="entry-form-section">
+            <h2>Submit Your Entry</h2>
+            <form id="entry-form">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="dob">Date of Birth:</label>
+                    <input type="date" id="dob" name="dob" required>
+                </div>
+                <div class="form-group">
+                    <label for="city">City:</label>
+                    <input type="text" id="city" name="city" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <button type="submit">Submit Entry</button>
+            </form>
+            <p id="form-message" class="message"></p>
+        </section>
+
+        <section id="winner-section">
+            <h2>Pick a Winner</h2>
+            <button id="pick-winner-btn">Pick Winner</button>
+            <div id="winner-display" class="winner-box">
+                <!-- Winner will be displayed here -->
+            </div>
+            <p id="winner-message" class="message"></p>
+        </section>
+    </div>
+
+    <script>
+        document.getElementById('entry-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formMessage = document.getElementById('form-message');
+            formMessage.textContent = '';
+            formMessage.className = 'message';
+
+            const formData = {
+                name: document.getElementById('name').value,
+                dob: document.getElementById('dob').value,
+                city: document.getElementById('city').value,
+                email: document.getElementById('email').value
+            };
+
+            try {
+                const response = await fetch('/entries', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    formMessage.textContent = data.message;
+                    formMessage.classList.add('success');
+                    document.getElementById('entry-form').reset(); // Clear form
+                } else {
+                    formMessage.textContent = data.message;
+                    formMessage.classList.add('error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                formMessage.textContent = 'An unexpected error occurred.';
+                formMessage.classList.add('error');
+            }
+        });
+
+        document.getElementById('pick-winner-btn').addEventListener('click', async () => {
+            const winnerDisplay = document.getElementById('winner-display');
+            const winnerMessage = document.getElementById('winner-message');
+            winnerDisplay.innerHTML = '';
+            winnerMessage.textContent = '';
+            winnerMessage.className = 'message';
+
+            try {
+                const response = await fetch('/winner');
+                const data = await response.json();
+
+                if (data.success) {
+                    winnerDisplay.innerHTML = `
+                        <h2>Winner of Giveaway</h2>
+                        <p>${data.winner}</p>
+                    `;
+                    winnerMessage.textContent = 'A winner has been selected!';
+                    winnerMessage.classList.add('success');
+                } else {
+                    winnerMessage.textContent = data.message;
+                    winnerMessage.classList.add('error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                winnerMessage.textContent = 'An unexpected error occurred while picking a winner.';
+                winnerMessage.classList.add('error');
+            }
+        });
+    </script>
+</body>
+</html>
