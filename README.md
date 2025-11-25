@@ -22,4 +22,5 @@ A Node.js Lucky Draw Website powered by Gemini CLI and SQLite.
 Start the server:
 
 node server.js
+
 Open browser at http://localhost:3000
