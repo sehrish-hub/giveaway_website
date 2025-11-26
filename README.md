@@ -60,6 +60,44 @@ gemini --model gemini-2.5-flash
 
 gemini-2.5-flash is a fast and latest model
 
+Gemini CLI Prompt – Lucky Draw Website:
+
+Task: Generate a complete Node.js Lucky Draw website project.
+
+Requirements:
+1. Website allows users to submit 3 entries with the following fields:
+   - Name
+   - Date of Birth
+   - City
+   - Email
+2. Each entry must be unique. Duplicate submissions should show an error message.
+3. Use SQLite database to store entries.
+4. Include a button labeled "Pick Winner" which will:
+   - Randomly select one winner from the database.
+   - Display the winner’s name in a new page/section.
+5. The title of the winner page/section should be "Winner of Giveaway".
+6. Website style:
+   - Background color: Black
+   - Text color: White
+   - Simple and responsive design
+7. Use Node.js with Express.js for backend.
+8. Frontend: HTML + CSS + basic JS (no framework required).
+9. Generate all necessary files:
+   - server.js
+   - public/index.html
+   - public/style.css
+   - database setup (SQLite)
+10. Include instructions to run:
+    - npm install
+    - node server.js
+
+Output requirements:
+- Provide **full project code** ready to run.
+- Save all source files in folder: `C:/Users/<YourUsername>/Desktop/giveaway_website`
+- Include SQLite database initialization script.
+- Ensure random winner selection works correctly.
+- Include proper error handling for duplicate entries.
+
 Start the server:
 
 node server.js
